@@ -14,6 +14,9 @@ These are very generic scripts, and can be used as a baseline when developing
 other tools that interact with the CircleCI API. Don't expect a configuration
 file to appear anytime soon.
 
+You'll need to set your [CircleCI API token](https://circleci.com/account/api)
+with `export CIRCLECI_TOKEN=<token>` for this tool to work.
+
 ### How is this different from the CircleCI CLI?
 
 The CircleCI CLI does offer a fair amount of functionality, but is aimed more 
