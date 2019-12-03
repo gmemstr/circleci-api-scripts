@@ -5,6 +5,7 @@ import os
 
 Token = os.getenv("CIRCLECI_TOKEN")
 
+
 # Get data from an endpoint and return JSON dict
 def GetData(endpoint, slug):
     if IsValidSlug(slug) is False:

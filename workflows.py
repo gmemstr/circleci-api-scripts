@@ -1,9 +1,6 @@
 # Useful for parsing workflow API data
-# ./main.py gh/gmemstr/circleci-koans
-import requests
+# ./workflows.py gh/gmemstr/circleci-koans
 import sys
-import json
-import os
 import cci
 
 
@@ -19,6 +16,7 @@ ID: {id}
     Stopped: {stopped}
     Credits used: {credits}
     """
+
     for item in data['items']:
         proj_string = template.format(
             id=item['id'], status=item['status'], 
@@ -30,7 +28,7 @@ ID: {id}
     return final_string
 
 
-def RunCommand(args):
+def RunCommand(args)
     if cci.IsValidSlug(args[0]) is False:
         return """No project given, should be formatted as <vcs>/<org name>/<project name>/<job id>
 e.g github/gmemstr/circleci-koans/1"""
@@ -43,13 +41,5 @@ e.g github/gmemstr/circleci-koans/1"""
 
 
 if __name__ == '__main__':
-    if cci.IsValidSlug(sys.argv[1]) is False:
-        print("No project given, should be formatted as <vcs>/<org name>/<project name>")
-        print("e.g gh/gmemstr/circleci-koans")
-        exit()
-
-    data = cci.GetData(
-        "https://circleci.com/api/v2/insights/{slug}/workflows/workflow?view=full&circle-token={token}",
-        sys.argv[1])
-    projects = ParseWorkflowData(data)
+    projects = RunCommand(sys.argv[1:])
     print(projects)

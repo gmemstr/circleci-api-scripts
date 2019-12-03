@@ -3,15 +3,8 @@
 import requests
 import sys
 import json
-import os
 import cci
 
-def GetJobData(project, token):
-    url = "".format(
-        project=project, token=token)
-    r = requests.get(url)
-    data = r.json()
-    return data
 
 def ParseJobData(data):
     if data == {}:
@@ -52,11 +45,5 @@ e.g github/gmemstr/circleci-koans/1"""
     return logs
 
 if __name__ == '__main__':
-    if cci.IsValidSlug(sys.argv[1]) is False:
-        print("No project given, should be formatted as <vcs>/<org name>/<project name>/<job id>")
-        print("e.g github/gmemstr/circleci-koans/1")
-        exit()
-    data = cci.GetData(
-        "https://circleci.com/api/v1.1/project/{slug}?circle-token={token}", sys.argv[1])
-    logs = ParseJobData(data)
+    logs = RunCommand(sys.argv[1:])
     print(logs)
