@@ -3,15 +3,28 @@ import requests
 import json
 import os
 
-Token = os.getenv("CIRCLECI_TOKEN")
+__token = os.getenv("CIRCLECI_TOKEN")
 
 
-# Get data from an endpoint and return JSON dict
+# Get data from an endpoint and return JSON dict, auto inject token
 def GetData(endpoint, slug):
     if IsValidSlug(slug) is False:
         return {}
-    url = endpoint.format(slug=slug, token=Token)
-    r = requests.get(url)
+    url = endpoint.format(slug=slug)
+    r = requests.get(url, params={"circle-token": __token})
+    data = r.json()
+
+    if 'message' in data.keys() and data['message'] == 'Not Found':
+        return {}
+    return data
+
+
+# Post dict to endpoint, automatically inject token
+def PostData(endpoint, slug, data):
+    if IsValidSlug(slug) is False:
+        return {}
+    url = endpoint.format(slug=slug)
+    r = requests.post(url, data=data, params={"circle-token": __token})
     data = r.json()
 
     if 'message' in data.keys() and data['message'] == 'Not Found':

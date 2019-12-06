@@ -40,7 +40,7 @@ def RunCommand(args):
         return """No project given, should be formatted as <vcs>/<org name>/<project name>/<job id>
 e.g github/gmemstr/circleci-koans/1"""
     data = cci.GetData(
-        "https://circleci.com/api/v1.1/project/{slug}?circle-token={token}", args[0])
+        "https://circleci.com/api/v1.1/project/{slug}", args[0])
     logs = ParseJobData(data)
     return logs
 

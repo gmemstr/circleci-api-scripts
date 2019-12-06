@@ -25,6 +25,7 @@ with `export CIRCLECI_TOKEN=<token>` for this tool to work.
  - [ ] Display spinner/activity while working if not being piped
  - [ ] Reorganize file structure (move modules to dedicated directory)
  - [ ] Rename `main.py` to reflect tool's name
+ - [ ] Auto updater for new/updated modules
 
 ### Writing your own module
 

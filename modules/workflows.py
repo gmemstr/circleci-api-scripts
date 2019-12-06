@@ -34,7 +34,7 @@ def RunCommand(args)
 e.g github/gmemstr/circleci-koans/1"""
 
     data = cci.GetData(
-        "https://circleci.com/api/v2/insights/{slug}/workflows/workflow?view=full&circle-token={token}",
+        "https://circleci.com/api/v2/insights/{slug}/workflows/workflow",
         args[0])
     projects = ParseWorkflowData(data)
     return projects

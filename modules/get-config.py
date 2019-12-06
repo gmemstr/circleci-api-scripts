@@ -10,7 +10,7 @@ def RunCommand(args):
 e.g github/gmemstr/circleci-koans/1"""
 
     data = cci.GetData(
-        "https://circleci.com/api/v1.1/project/{slug}?view=full&circle-token={token}",
+        "https://circleci.com/api/v1.1/project/{slug}",
         args[0])
     return data['circle_yml']['string']
 
