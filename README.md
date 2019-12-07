@@ -19,13 +19,13 @@ with `export CIRCLECI_TOKEN=<token>` for this tool to work.
 
 #### To-do:
 
- - [ ] Write `PostData` helper function for POST'ing data
+ - [x] Write `PostData` helper function for POST'ing data
  - [ ] Debate and implement better handling of slug/endpoint combo
  - [ ] Detection of being piped to file/program
  - [ ] Display spinner/activity while working if not being piped
- - [ ] Reorganize file structure (move modules to dedicated directory)
+ - [x] Reorganize file structure (move modules to dedicated directory)
  - [ ] Rename `main.py` to reflect tool's name
- - [ ] Auto updater for new/updated modules
+ - [x] Auto updater for new/updated modules
 
 ### Writing your own module
 
@@ -52,7 +52,16 @@ if __name__ == '__main__':
 A few helper functions are available, which are common functions scripts 
 typically have to call. The most important of which is 
 `GetData(endpoint, slug)`, which will fetch the data from the endpoint requested
-and handle any errors that arise from the request.
+and handle any errors that arise from the request. There is also a 
+`PostData(endpoint, slug, data)` function for POST requests. The endpoint should
+be formatted like so:
+
+```
+https://circleci.com/api/<endpoint>/{slug}
+```
+
+where `{slug}` will be replaced with the project slug 
+(`:vcs/:username/:project`) provided by the user.
 
 Besides that, take a look at the existing modules, and have fun! As a 
 "best-practice" note, modules should aim to implement features using no, or very

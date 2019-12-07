@@ -8,18 +8,25 @@ import hashlib
 import json
 
 
-# Self-updater
-# Abandon hope, all ye who enter (it's not that bad)
+# Self-updater for modules
 def Update():
     r = requests.get("https://api.github.com/repos/gmemstr/circleci-api-scripts/commits")
     data = r.json()
 
-    with open("versions") as cache:
+    file_exists = os.path.isfile("versions") 
+ 
+    if file_exists is False:
+        with open("versions", "w+") as f:
+            f.write("{}")
+            print("Created versions file")
+
+    with open("versions", "r+") as cache:
         version_cache = json.load(cache)
-    # We need to update something, but what?
+    
     if "sha" not in version_cache:
         version_cache['sha'] = ""
         version_cache['modules'] = {}
+
     if version_cache['sha'] != data[0]['sha']:
         # Check modules for updates
         r_mod = requests.get("https://api.github.com/repos/gmemstr/circleci-api-scripts/contents/modules")
@@ -31,11 +38,11 @@ def Update():
             if version_cache['modules'][name]['version'] != module['sha']:
                 print("{name} updating...".format(name=name))
                 r_u = requests.get(module['download_url'])
-                f = open("modules/" + name, "w+")
-                f.write(r_u.text)
-                f.close()
+                with open("modules/" + name, "w+") as module_file:
+                    module_file.write(r_u.text)
                 version_cache['modules'][name]['version'] = module['sha']
-    # Finally, write new version file
+
+    # Finally, write new versions file
     version_cache['sha'] = data[0]['sha']
     with open("versions", "w") as cache:
         json.dump(version_cache, cache, indent=4)

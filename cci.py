@@ -11,7 +11,7 @@ def GetData(endpoint, slug):
     if IsValidSlug(slug) is False:
         return {}
     url = endpoint.format(slug=slug)
-    r = requests.get(url, params={"circle-token": __token})
+    r = requests.get(url, params={"circle-token": __token}, headers={"Accept": "application/json"})
     data = r.json()
 
     if 'message' in data.keys() and data['message'] == 'Not Found':
@@ -24,7 +24,7 @@ def PostData(endpoint, slug, data):
     if IsValidSlug(slug) is False:
         return {}
     url = endpoint.format(slug=slug)
-    r = requests.post(url, data=data, params={"circle-token": __token})
+    r = requests.post(url, data=data, params={"circle-token": __token}, headers={"Accept": "application/json"})
     data = r.json()
 
     if 'message' in data.keys() and data['message'] == 'Not Found':
