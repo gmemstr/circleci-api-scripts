@@ -6,7 +6,7 @@ CircleCI API Scripts
 These scripts can either be used individually by directly invoking them or can
 be ran with the wrapper script which will eventually implement some more helpful
 features. This wrapper script is written with the aim of having modules to load,
-and will invoke the `RunCommand(args)` function when that module is called. See
+and will invoke the `run_command(args)` function when that module is called. See
 the current scripts for examples. You can see the currently installed modules
 with `./main.py modules`.
 
@@ -19,22 +19,23 @@ with `export CIRCLECI_TOKEN=<token>` for this tool to work.
 
 #### To-do:
 
- - [x] Write `PostData` helper function for POST'ing data
+ - [x] Write `post_data` helper function for POST'ing data
  - [ ] Debate and implement better handling of slug/endpoint combo
  - [ ] Detection of being piped to file/program
  - [ ] Display spinner/activity while working if not being piped
  - [x] Reorganize file structure (move modules to dedicated directory)
  - [ ] Rename `main.py` to reflect tool's name
  - [x] Auto updater for new/updated modules
+ - [x] Refactor code according to PEP 8
 
 ### Writing your own module
 
 Writing your own module is relatively straightforward. Each one should implement
-a function that will be intially called by the main script, named `RunCommand`,
+a function that will be intially called by the main script, named `run_command`,
 and should accept a list of args. e.g
 
 ```python
-def RunCommand(agrs):
+def run_command(args):
     print(args)
     return "done!"
 ```
@@ -45,16 +46,16 @@ implementing the following code block:
 
 ```python
 if __name__ == '__main__':
-    result = RunCommand(sys.argv[1:])
+    result = run_command(sys.argv[1:])
     print(result)
 ```
 
 A few helper functions are available, which are common functions scripts 
 typically have to call. The most important of which is 
-`GetData(endpoint, slug)`, which will fetch the data from the endpoint requested
-and handle any errors that arise from the request. There is also a 
-`PostData(endpoint, slug, data)` function for POST requests. The endpoint should
-be formatted like so:
+`get_data(endpoint, slug)`, which will fetch the data from the endpoint 
+requested and handle any errors that arise from the request. There is also a 
+`post_data(endpoint, slug, data)` function for POST requests. The endpoint 
+should be formatted like so:
 
 ```
 https://circleci.com/api/<endpoint>/{slug}

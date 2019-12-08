@@ -9,12 +9,13 @@ import json
 
 
 # Self-updater for modules
-def Update():
-    r = requests.get("https://api.github.com/repos/gmemstr/circleci-api-scripts/commits")
+def update():
+    r = requests.get(
+        "https://api.github.com/repos/gmemstr/circleci-api-scripts/commits")
     data = r.json()
 
-    file_exists = os.path.isfile("versions") 
- 
+    file_exists = os.path.isfile("versions")
+
     if file_exists is False:
         with open("versions", "w+") as f:
             f.write("{}")
@@ -22,14 +23,15 @@ def Update():
 
     with open("versions", "r+") as cache:
         version_cache = json.load(cache)
-    
+
     if "sha" not in version_cache:
         version_cache['sha'] = ""
         version_cache['modules'] = {}
 
     if version_cache['sha'] != data[0]['sha']:
         # Check modules for updates
-        r_mod = requests.get("https://api.github.com/repos/gmemstr/circleci-api-scripts/contents/modules")
+        r_mod = requests.get(
+            "https://api.github.com/repos/gmemstr/circleci-api-scripts/contents/modules")
         data_mod = r_mod.json()
         for module in data_mod:
             name = module['name']
@@ -47,17 +49,19 @@ def Update():
     with open("versions", "w") as cache:
         json.dump(version_cache, cache, indent=4)
 
-def GetModules(): 
+
+def get_modules():
     files = [f for f in glob.glob("modules/*.py")]
     processed_files = []
 
     for name in files:
-        if name == "modules/__init__.py": 
+        if name == "modules/__init__.py":
             continue
         f = name.replace(".py", "").replace("modules/", "")
         processed_files.append(f)
 
     return processed_files
+
 
 # Wrapper around Python scripts to make it easier to run.
 # argv index 1 is the script to run
@@ -67,7 +71,7 @@ if __name__ == '__main__':
         print("No command given")
         exit(1)
     command = sys.argv[1].lower()
-    modules = GetModules()
+    modules = get_modules()
 
     # Reserved commands - ['modules']
     if command == "modules":
@@ -80,7 +84,7 @@ if __name__ == '__main__':
 
     if command in modules:
         mod = import_module("modules." + command)
-        result = mod.RunCommand(sys.argv[2:])
+        result = mod.run_command(sys.argv[2:])
     else:
         result = "Command not found"
 

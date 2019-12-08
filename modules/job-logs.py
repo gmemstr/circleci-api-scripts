@@ -6,7 +6,7 @@ import json
 import cci
 
 
-def ParseJobData(data):
+def parse_job_data(data):
     if data == {}:
         return "Not Found"
     command = final_string = ""
@@ -35,15 +35,16 @@ def ParseJobData(data):
     return final_string
 
 
-def RunCommand(args):
-    if cci.IsValidSlug(args[0]) is False:
+def run_command(args):
+    if cci.is_valid_slug(args[0]) is False:
         return """No project given, should be formatted as <vcs>/<org name>/<project name>/<job id>
 e.g github/gmemstr/circleci-koans/1"""
-    data = cci.GetData(
+    data = cci.get_data(
         "https://circleci.com/api/v1.1/project/{slug}", args[0])
-    logs = ParseJobData(data)
+    logs = parse_job_data(data)
     return logs
 
+
 if __name__ == '__main__':
-    logs = RunCommand(sys.argv[1:])
+    logs = run_command(sys.argv[1:])
     print(logs)

@@ -4,7 +4,7 @@ import sys
 import cci
 
 
-def ParseWorkflowData(data):
+def parse_workflow_data(data):
     if data == {}:
         return "Not Found"
     final_string = ""
@@ -19,7 +19,7 @@ ID: {id}
 
     for item in data['items']:
         proj_string = template.format(
-            id=item['id'], status=item['status'], 
+            id=item['id'], status=item['status'],
             duration=item['duration'], created=item['created_at'],
             stopped=item['stopped_at'], credits=item['credits_used'])
         final_string += proj_string
@@ -28,15 +28,13 @@ ID: {id}
     return final_string
 
 
-def RunCommand(args)
-    if cci.IsValidSlug(args[0]) is False:
+def run_command(args):
+    if cci.is_valid_slug(args[0]) is False:
         return """No project given, should be formatted as <vcs>/<org name>/<project name>/<job id>
 e.g github/gmemstr/circleci-koans/1"""
 
-    data = cci.GetData(
-        "https://circleci.com/api/v2/insights/{slug}/workflows/workflow",
-        args[0])
-    projects = ParseWorkflowData(data)
+    data = cci.get_data("https://circleci.com/api/v2/insights/{slug}/workflows/workflow", args[0])
+    projects = parse_workflow_data(data)
     return projects
 
 

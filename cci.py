@@ -7,11 +7,16 @@ __token = os.getenv("CIRCLECI_TOKEN")
 
 
 # Get data from an endpoint and return JSON dict, auto inject token
-def GetData(endpoint, slug):
-    if IsValidSlug(slug) is False:
+def get_data(endpoint, slug):
+    if is_valid_slug(slug) is False:
         return {}
     url = endpoint.format(slug=slug)
-    r = requests.get(url, params={"circle-token": __token}, headers={"Accept": "application/json"})
+    r = requests.get(
+        url,
+        params={
+            "circle-token": __token},
+        headers={
+            "Accept": "application/json"})
     data = r.json()
 
     if 'message' in data.keys() and data['message'] == 'Not Found':
@@ -20,11 +25,17 @@ def GetData(endpoint, slug):
 
 
 # Post dict to endpoint, automatically inject token
-def PostData(endpoint, slug, data):
-    if IsValidSlug(slug) is False:
+def post_data(endpoint, slug, data):
+    if is_valid_slug(slug) is False:
         return {}
     url = endpoint.format(slug=slug)
-    r = requests.post(url, data=data, params={"circle-token": __token}, headers={"Accept": "application/json"})
+    r = requests.post(
+        url,
+        data=data,
+        params={
+            "circle-token": __token},
+        headers={
+            "Accept": "application/json"})
     data = r.json()
 
     if 'message' in data.keys() and data['message'] == 'Not Found':
@@ -33,7 +44,7 @@ def PostData(endpoint, slug, data):
 
 
 # Validate project slug
-def IsValidSlug(project):
+def is_valid_slug(project):
     if project == "":
         return False
     decon = project.split("/")
