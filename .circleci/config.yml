@@ -29,6 +29,10 @@ jobs:
           at: /home/circleci
       - run: pwd
       - run: source venv/bin/activate
+      - run:
+          name: Run testing server for API calls
+          command: python tests/testing-server.py
+          background: true
       - run: python main.py test
 
 workflows:

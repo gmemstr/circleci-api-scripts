@@ -8,7 +8,7 @@ Token = os.getenv("CIRCLECI_TOKEN")
 
 # Get data from an endpoint and return JSON dict, auto inject token
 def get_data(endpoint, slug=""):
-    if is_valid_slug(slug) is False:
+    if slug != "" and is_valid_slug(slug) is False:
         return {}
     url = endpoint.format(slug=slug)
     r = requests.get(
@@ -26,7 +26,7 @@ def get_data(endpoint, slug=""):
 
 # Post dict to endpoint, automatically inject token
 def post_data(endpoint, slug="", data={}):
-    if is_valid_slug(slug) is False:
+    if slug != "" and is_valid_slug(slug) is False:
         return {}
     url = endpoint.format(slug=slug)
     r = requests.post(

@@ -4,7 +4,8 @@ from tests import tests
 
 
 def test_get_data():
-    result = cci.get_data("localhost:7483/test.json")
+    result = cci.get_data("http://localhost:7483")
+    print(result)
     if "success" in result and result['success']:
         tests.success()
     else:
@@ -12,7 +13,7 @@ def test_get_data():
 
 
 def test_post_data():
-    result = cci.post_data("localhost:7483/test.json")
+    result = cci.post_data("http://localhost:7483")
     if "success" in result and result['success']:
         tests.success()
     else:

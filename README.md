@@ -27,6 +27,7 @@ with `export CIRCLECI_TOKEN=<token>` for this tool to work.
  - [ ] Rename `main.py` to reflect tool's name
  - [x] Auto updater for new/updated modules
  - [x] Refactor code according to PEP 8
+ - [x] Write tests that can be automated 
 
 ### Writing your own module
 
