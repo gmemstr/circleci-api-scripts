@@ -3,6 +3,8 @@ CircleCI API Scripts
 
 **A collection of Python (3) scripts for interacting with the CircleCI API**
 
+[![CircleCI](https://circleci.com/gh/gmemstr/circleci-api-scripts/tree/master.svg?style=svg)](https://circleci.com/gh/gmemstr/circleci-api-scripts/tree/master)
+
 These scripts can either be used individually by directly invoking them or can
 be ran with the wrapper script which will eventually implement some more helpful
 features. This wrapper script is written with the aim of having modules to load,
