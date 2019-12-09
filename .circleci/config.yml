@@ -1,0 +1,39 @@
+version: 2
+jobs:
+  build:
+    docker:
+      - image: circleci/python:3.7.3
+    steps:
+    - checkout
+    - run: pwd
+    - restore_cache:
+       keys:
+         - requirements-{{ checksum "requirements.txt" }}
+         - requirements- # used if checksum fails
+    - run: python3 -m venv venv
+    - run: source venv/bin/activate
+    - run: pip install --user -r requirements.txt
+    - save_cache:
+        key: requirements-{{ checksum "requirements.txt" }}
+        paths:
+          - venv
+    - persist_to_workspace:
+        root: /home/circleci
+        paths:
+          - project
+  test:
+    docker:
+      - image: circleci/python:3.7.3
+    steps:
+      - attach_workspace:
+          at: /home/circleci
+      - run: pwd
+      - run: source venv/bin/activate
+      - run: python main.py test
+
+workflows:
+  version: 2
+  build-and-test:
+    jobs:
+      - build
+      - test

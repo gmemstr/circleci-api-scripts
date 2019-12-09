@@ -6,6 +6,7 @@ from importlib import import_module
 import requests
 import hashlib
 import json
+import cci
 
 
 # Self-updater for modules
@@ -70,17 +71,27 @@ if __name__ == '__main__':
     if sys.argv[1] is None:
         print("No command given")
         exit(1)
+
     command = sys.argv[1].lower()
     modules = get_modules()
 
-    # Reserved commands - ['modules']
+    # Reserved commands - ['modules', 'update', 'test']
     if command == "modules":
         for module in modules:
             print(module)
-        exit()
+        exit(1)
     if command == "update":
         Update()
-        exit()
+        exit(1)
+    if command == "test":
+        mod = import_module("tests.tests")
+        results = mod.run_tests()
+        exit(results)
+
+    valid = cci.validate_setup()
+    if not valid:
+        print("Cannot reach the CircleCI API:", valid)
+        exit(1)
 
     if command in modules:
         mod = import_module("modules." + command)

@@ -33,7 +33,9 @@ def run_command(args):
         return """No project given, should be formatted as <vcs>/<org name>/<project name>/<job id>
 e.g github/gmemstr/circleci-koans/1"""
 
-    data = cci.get_data("https://circleci.com/api/v2/insights/{slug}/workflows/workflow", args[0])
+    data = cci.get_data(
+        "https://circleci.com/api/v2/insights/{slug}/workflows/workflow",
+        args[0])
     projects = parse_workflow_data(data)
     return projects
 
