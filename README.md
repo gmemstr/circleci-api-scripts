@@ -19,18 +19,6 @@ file to appear anytime soon.
 You'll need to set your [CircleCI API token](https://circleci.com/account/api)
 with `export CIRCLECI_TOKEN=<token>` for this tool to work.
 
-#### To-do:
-
- - [x] Write `post_data` helper function for POST'ing data
- - [ ] Debate and implement better handling of slug/endpoint combo
- - [ ] Detection of being piped to file/program
- - [ ] Display spinner/activity while working if not being piped
- - [x] Reorganize file structure (move modules to dedicated directory)
- - [ ] Rename `main.py` to reflect tool's name
- - [x] Auto updater for new/updated modules
- - [x] Refactor code according to PEP 8
- - [x] Write tests that can be automated 
-
 ### Writing your own module
 
 Writing your own module is relatively straightforward. Each one should implement

@@ -19,7 +19,8 @@ def get_data(endpoint, slug=""):
             "Accept": "application/json"})
     data = r.json()
 
-    if 'message' in data.keys() and data['message'] == 'Not Found':
+    if not isinstance(data, list) and 'message' in data.keys(
+    ) and data['message'] == 'Not Found':
         return {}
     return data
 

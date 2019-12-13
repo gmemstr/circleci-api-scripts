@@ -1,5 +1,4 @@
 # Fetch configuration file from a job
-# ./get-config.py github/gmemstr/circleci-koans/1
 import sys
 import cci
 

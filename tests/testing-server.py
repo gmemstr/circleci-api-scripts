@@ -3,6 +3,7 @@ import socketserver
 
 PORT = 7483
 
+
 class Handler(http.server.SimpleHTTPRequestHandler):
 
     def do_GET(self):
@@ -18,6 +19,7 @@ class Handler(http.server.SimpleHTTPRequestHandler):
         self.end_headers()
         self.wfile.write('{"success": true}'.encode('utf-8'))
         return
+
 
 print('Server listening on port 7483...')
 httpd = socketserver.TCPServer(('', PORT), Handler)

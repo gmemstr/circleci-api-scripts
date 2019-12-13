@@ -7,6 +7,8 @@ from importlib import import_module
 exit = 0
 
 # Get test files, prefixed with `test-`.
+
+
 def get_tests():
     files = [f for f in glob.glob("tests/test-*.py")]
     processed_files = []

@@ -1,5 +1,4 @@
 # Useful for parsing workflow API data
-# ./workflows.py gh/gmemstr/circleci-koans
 import sys
 import cci
 
