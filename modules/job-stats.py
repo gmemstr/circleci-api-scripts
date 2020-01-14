@@ -34,6 +34,8 @@ Status: {statuses}
 """
     stats = {"why": {}, "build_time_total": 0, "outcomes": {}, "statuses": {}}
     total_jobs = len(data)
+    if total_jobs == 0:
+        return "No jobs found for project"
     for job in data:
         # Why job failed
         if job["why"] not in stats["why"]:

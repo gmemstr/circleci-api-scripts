@@ -2,6 +2,7 @@
 import requests
 import json
 import os
+import yaml
 
 Token = os.getenv("CIRCLECI_TOKEN")
 
@@ -71,3 +72,7 @@ def validate_setup():
         return "cannot authenticate with api"
 
     return True
+
+
+def parse_config(config):
+    return yaml.safe_load(config)

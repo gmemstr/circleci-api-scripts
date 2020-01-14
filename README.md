@@ -5,6 +5,17 @@ CircleCI API Scripts
 
 [![CircleCI](https://circleci.com/gh/gmemstr/circleci-api-scripts/tree/master.svg?style=svg)](https://circleci.com/gh/gmemstr/circleci-api-scripts/tree/master)
 
+## Getting Started
+
+```sh
+export CIRCLECI_TOKEN=1234567890ABCDEF
+pip3 install -r requirements.txt
+chmod +x main.py
+./main.py <module name>
+```
+
+## About 
+
 These scripts can either be used individually by directly invoking them or can
 be ran with the wrapper script which will eventually implement some more helpful
 features. This wrapper script is written with the aim of having modules to load,
@@ -19,7 +30,7 @@ file to appear anytime soon.
 You'll need to set your [CircleCI API token](https://circleci.com/account/api)
 with `export CIRCLECI_TOKEN=<token>` for this tool to work.
 
-### Writing your own module
+## Writing your own module
 
 Writing your own module is relatively straightforward. Each one should implement
 a function that will be intially called by the main script, named `run_command`,
@@ -59,7 +70,7 @@ Besides that, take a look at the existing modules, and have fun! As a
 "best-practice" note, modules should aim to implement features using no, or very
 few, additional Python package requirements.
 
-### How is this different from the CircleCI CLI?
+## How is this different from the CircleCI CLI?
 
 The CircleCI CLI does offer a fair amount of functionality, but is aimed more 
 towards things like configuration checking and Orb manipulation. This project
