@@ -19,7 +19,6 @@ def get_tests():
 
     return processed_files
 
-
 # Dynamically import and run the tests.
 def run_tests():
     tests = get_tests()

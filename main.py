@@ -8,7 +8,6 @@ import hashlib
 import json
 import cci
 
-
 # Self-updater for modules
 def update():
     r = requests.get(
@@ -52,13 +51,15 @@ def update():
 
 
 def get_modules():
-    files = [f for f in glob.glob("modules/*.py")]
+    base_path = os.path.dirname(__file__)
+    files = [f for f in glob.glob(base_path + "/modules/*.py")]
+
     processed_files = []
 
     for name in files:
-        if name == "modules/__init__.py":
+        if "modules/__init__.py" in name:
             continue
-        f = name.replace(".py", "").replace("modules/", "")
+        f = name.replace(".py", "").replace("modules/", "").replace(base_path+"/", "")
         processed_files.append(f)
 
     return processed_files
