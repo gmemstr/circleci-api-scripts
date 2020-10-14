@@ -1,43 +1,18 @@
-version: 2
+version: 2.1
 jobs:
-  build:
-    docker:
-      - image: circleci/python:3.7.3
-    steps:
-    - checkout
-    - restore_cache:
-       keys:
-         - requirements-{{ checksum "requirements.txt" }}
-         - requirements- # used if checksum fails
-    - run: python3 -m venv venv
-    - run: source venv/bin/activate
-    - run: pip install -r requirements.txt
-    - save_cache:
-        key: requirements-{{ checksum "requirements.txt" }}
-        paths:
-          - venv
-    - persist_to_workspace:
-        root: /home/circleci
-        paths:
-          - project
   test:
     docker:
-      - image: circleci/python:3.7.3
+      - image: cimg/python:3.8.6
     steps:
-      - attach_workspace:
-          at: /home/circleci
-      - run: source venv/bin/activate
+      - checkout
+      - run: pipenv install -r requirements.txt
       - run:
           name: Run testing server for API calls
           command: python tests/testing-server.py
           background: true
-      - run: python main.py test
+      - run: pipenv run python main.py test
 
 workflows:
-  version: 2
   build-and-test:
     jobs:
-      - build
-      - test:
-          requires:
-            - build
+      - test
