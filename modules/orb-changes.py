@@ -3,6 +3,7 @@ import json
 import yaml
 from deepdiff import DeepDiff
 import deepdiff
+import sys
 
 # Pass in YAML strings.
 def parse_version_diff(version_latest, version_previous):
@@ -83,3 +84,7 @@ def run_command(args):
 
     diff = parse_version_diff(latest_version, previous_version)
     return f"## v{version}\n\n{diff}"
+
+if __name__ == '__main__':
+    result = run_command(sys.argv[1:])
+    print(result)
