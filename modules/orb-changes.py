@@ -26,11 +26,11 @@ def parse_version_diff(version_latest, version_previous):
                 location = k.replace("root", "").replace("][", " > ").replace("[", "").replace("]", " ").replace("'", "")
                 if v.get("diff"):
                     diff = v.get("diff")
-                    final_string += f"{prefix}: orb > {location}\n  ```diff\n{diff}\n```  \n"
+                    final_string += f"{prefix}: orb > {location} \n```diff\n{diff}\n```  \n"
                 else:
                     new = v.get("new_value", "")
                     old = v.get("old_value", "")
-                    final_string += f"{prefix}: orb > {location} \"{old}\" -> \"{new}\"  \n"
+                    final_string += f"{prefix}: orb > {location}\"{old}\" -> \"{new}\"  \n"
 
     return final_string
 
@@ -55,17 +55,21 @@ def run_command(args):
     r = requests.post(url, json={'query': query})
     json_data = json.loads(r.text)
     latest_version = previous_version = None
+    version = ""
 
     if len(args) == 3:
         new = args[1]
         old = args[2]
         print(f"Comparing {new} to {old}")
-        for version in json_data["data"]["orb"]["versions"]:
-            if version["version"] == args[1]:
-                latest_version = yaml.load(version["source"])
-                version = args[1]
-            if version["version"] == args[2]:
-                previous_version = yaml.load(version["source"])
+        for v in json_data["data"]["orb"]["versions"]:
+            if v["version"] == new:
+                latest_version = yaml.load(v["source"])
+                version = new
+                continue
+            if v["version"] == old:
+                previous_version = yaml.load(v["source"])
+                continue
+
     else:
         latest_version = yaml.load(json_data["data"]["orb"]["versions"][0]["source"])
         previous_version = yaml.load(json_data["data"]["orb"]["versions"][1]["source"])
