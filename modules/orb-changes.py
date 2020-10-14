@@ -25,9 +25,13 @@ def parse_version_diff(version_latest, version_previous):
         elif isinstance(value, dict):
             for k, v in value.items():
                 location = k.replace("root", "").replace("][", " > ").replace("[", "").replace("]", " ").replace("'", "")
+                if isinstance(v, dict) == False:
+                    final_string += f"{prefix}: orb > {location} {v}  \n"
+                    continue
                 if v.get("diff"):
                     diff = v.get("diff")
                     final_string += f"{prefix}: orb > {location} \n```diff\n{diff}\n```  \n"
+                    continue
                 else:
                     new = v.get("new_value", "")
                     old = v.get("old_value", "")
