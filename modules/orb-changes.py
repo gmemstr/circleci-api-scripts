@@ -63,11 +63,13 @@ def run_command(args):
         for version in json_data["data"]["orb"]["versions"]:
             if version["version"] == args[1]:
                 latest_version = yaml.load(version["source"])
+                version = args[1]
             if version["version"] == args[2]:
                 previous_version = yaml.load(version["source"])
     else:
-        latest_version = yaml.load(json_data["data"]["orb"]["versions"][1]["source"])
-        previous_version = yaml.load(json_data["data"]["orb"]["versions"][2]["source"])
+        latest_version = yaml.load(json_data["data"]["orb"]["versions"][0]["source"])
+        previous_version = yaml.load(json_data["data"]["orb"]["versions"][1]["source"])
+        version = json_data["data"]["orb"]["versions"][0]["version"]
 
     if latest_version is None or previous_version is None:
         return (
@@ -76,5 +78,4 @@ def run_command(args):
         )
 
     diff = parse_version_diff(latest_version, previous_version)
-    version = json_data["data"]["orb"]["versions"][1]["version"]
     return f"## v{version}\n\n{diff}"

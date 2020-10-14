@@ -5,14 +5,13 @@ jobs:
       - image: circleci/python:3.7.3
     steps:
     - checkout
-    - run: pwd
     - restore_cache:
        keys:
          - requirements-{{ checksum "requirements.txt" }}
          - requirements- # used if checksum fails
     - run: python3 -m venv venv
     - run: source venv/bin/activate
-    - run: pip install --user -r requirements.txt
+    - run: pip install -r requirements.txt
     - save_cache:
         key: requirements-{{ checksum "requirements.txt" }}
         paths:
@@ -27,7 +26,6 @@ jobs:
     steps:
       - attach_workspace:
           at: /home/circleci
-      - run: pwd
       - run: source venv/bin/activate
       - run:
           name: Run testing server for API calls
