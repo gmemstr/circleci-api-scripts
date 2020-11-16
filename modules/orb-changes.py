@@ -4,6 +4,33 @@ import yaml
 from deepdiff import DeepDiff
 import deepdiff
 import sys
+import re
+
+def isInt(i):
+    try: 
+        int(i)
+        return True
+    except ValueError:
+        return False
+
+def normalize_string(string):
+    l = string.split(" ")
+    not_included = ["when", "unless", "steps", ">"]
+
+    g = string.split(" > ")
+
+    name = f"{g[0]}'s"
+    if g[0].endswith("s"):
+        name = f"{g[0][:-1]}'s"
+
+    final = f"{g[1].title()} {name}"
+    for s in l[3:]:
+        if isInt(s) == False and s not in not_included:
+            if s.endswith("s"):
+                s = s[:-1]
+            final += f" {s}"
+    final = re.sub('(> ){2,}', '> ', final)
+    return final
 
 # Pass in YAML strings.
 def parse_version_diff(version_latest, version_previous):
@@ -21,21 +48,23 @@ def parse_version_diff(version_latest, version_previous):
         if isinstance(value, deepdiff.model.PrettyOrderedSet):
             for v in value:
                 v = v.replace("root", "").replace("][", " > ").replace("[", "").replace("]", " ").replace("'", "")
-                final_string += f"{prefix}: orb > {v}  \n"
+                use = normalize_string(v)
+                final_string += f"{prefix}: {use}  \n"
         elif isinstance(value, dict):
             for k, v in value.items():
                 location = k.replace("root", "").replace("][", " > ").replace("[", "").replace("]", " ").replace("'", "")
+                use = normalize_string(location)
                 if isinstance(v, dict) == False:
-                    final_string += f"{prefix}: orb > {location} {v}  \n"
+                    final_string += f"{prefix}: {use} {v}  \n"
                     continue
                 if v.get("diff"):
                     diff = v.get("diff")
-                    final_string += f"{prefix}: orb > {location} \n```diff\n{diff}\n```  \n"
+                    final_string += f"{prefix}: {use} \n```diff\n{diff}\n```  \n"
                     continue
                 else:
                     new = v.get("new_value", "")
                     old = v.get("old_value", "")
-                    final_string += f"{prefix}: orb > {location}\"{old}\" -> \"{new}\"  \n"
+                    final_string += f"{prefix}: {use}\"{old}\" -> \"{new}\"  \n"
 
     return final_string
 
